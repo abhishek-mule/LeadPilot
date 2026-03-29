@@ -6,12 +6,23 @@ const statusNode = document.getElementById("status");
 initialize();
 
 saveButton.addEventListener("click", async () => {
+  saveButton.disabled = true;
+  saveButton.textContent = "Saving...";
+  
   await chrome.storage.sync.set({
     webhookUrl: webhookInput.value.trim(),
     autoCapture: autoCaptureInput.checked
   });
 
-  statusNode.textContent = "Settings saved.";
+  setStatus("Settings saved successfully!", "success");
+  
+  saveButton.disabled = false;
+  saveButton.textContent = "Save Settings";
+  
+  setTimeout(() => {
+    statusNode.textContent = "";
+    statusNode.className = "status";
+  }, 3000);
 });
 
 async function initialize() {
@@ -22,4 +33,9 @@ async function initialize() {
 
   webhookInput.value = settings.webhookUrl;
   autoCaptureInput.checked = settings.autoCapture;
+}
+
+function setStatus(message, type) {
+  statusNode.textContent = message;
+  statusNode.className = `status ${type}`;
 }

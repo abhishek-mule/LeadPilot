@@ -5,28 +5,33 @@ void renderStatus();
 
 captureButton.addEventListener("click", async () => {
   try {
-    setStatus("Scanning current tab...");
+    captureButton.disabled = true;
+    captureButton.textContent = "Capturing...";
+    setStatus("Scanning current tab...", "loading");
 
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
     if (!tab?.id) {
-      setStatus("Active tab not found.");
+      setStatus("Active tab not found.", "error");
+      resetButton();
       return;
     }
 
     if (!isIndiaMartPage(tab.url)) {
-      setStatus("Open an IndiaMART seller page first, then try again.");
+      setStatus("Open an IndiaMART seller page first.", "error");
+      resetButton();
       return;
     }
 
     const pageResponse = await chrome.tabs.sendMessage(tab.id, { type: "capture:run" });
 
     if (!pageResponse?.ok) {
-      setStatus("Could not read leads from this page.");
+      setStatus("Could not read leads from this page.", "error");
+      resetButton();
       return;
     }
 
-    setStatus(`Found ${pageResponse.payload.leads.length} leads. Syncing...`);
+    setStatus(`Found ${pageResponse.payload.leads.length} leads. Syncing...`, "loading");
 
     const syncResponse = await chrome.runtime.sendMessage({
       type: "capture:submit",
@@ -34,25 +39,33 @@ captureButton.addEventListener("click", async () => {
     });
 
     if (!syncResponse?.ok) {
-      setStatus(syncResponse?.error || "Sync failed.");
+      setStatus(syncResponse?.error || "Sync failed.", "error");
+      resetButton();
       return;
     }
 
     const { inserted = 0, skipped = 0, message = "Sync complete." } = syncResponse.result || {};
-    setStatus(`${message} Inserted ${inserted}, skipped ${skipped}.`);
+    setStatus(`✓ ${message} Inserted: ${inserted}, Skipped: ${skipped}.`, "success");
     await renderStatus();
   } catch (error) {
     if (String(error?.message || "").includes("Receiving end does not exist")) {
-      setStatus("Reload the IndiaMART tab and the extension, then try again.");
-      return;
+      setStatus("Reload the IndiaMART tab and extension.", "error");
+    } else {
+      setStatus(error?.message || "Unexpected error.", "error");
     }
-
-    setStatus(error?.message || "Unexpected error.");
+  } finally {
+    resetButton();
   }
 });
 
-function setStatus(message) {
+function resetButton() {
+  captureButton.disabled = false;
+  captureButton.textContent = "Capture Leads";
+}
+
+function setStatus(message, type = "info") {
   statusNode.textContent = message;
+  statusNode.className = `status ${type}`;
 }
 
 async function renderStatus() {
@@ -65,16 +78,16 @@ async function renderStatus() {
 
     const status = response.status;
     if (status?.pending) {
-      setStatus(`Pending retries: ${status.pending}`);
+      setStatus(`Pending retries: ${status.pending}`, "info");
       return;
     }
 
     if (status?.lastSync?.result) {
       const result = status.lastSync.result;
-      setStatus(`${result.message} Pending ${result.pending || 0}.`);
+      setStatus(`Last sync: ${result.message} | Pending: ${result.pending || 0}`, "info");
     }
   } catch (_error) {
-    setStatus("Extension worker not ready. Reload the extension.");
+    setStatus("Extension worker not ready. Reload the extension.", "error");
   }
 }
 

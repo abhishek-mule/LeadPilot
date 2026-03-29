@@ -7,16 +7,26 @@
   </head>
   <body>
     <main class="panel panel-wide">
-      <h1>LeadPilot Settings</h1>
+      <div class="logo-container">
+        <img src="assets/clickpilot_logo.png" alt="LeadPilot Logo">
+      </div>
+      <h1>Settings</h1>
+      <p class="subtitle">Configure your LeadPilot extension</p>
+      
       <label class="field">
         <span>Apps Script Webhook URL</span>
         <input id="webhookUrl" type="url" placeholder="https://script.google.com/macros/s/.../exec">
       </label>
+      
       <label class="checkbox">
-        <input id="autoCapture" type="checkbox">
-        <span>Enable auto-capture later</span>
+        <span>Auto-Capture</span>
+        <div class="checkbox-row">
+          <input id="autoCapture" type="checkbox">
+          <span>Automatically capture leads when viewing IndiaMART seller pages</span>
+        </div>
       </label>
-      <button id="saveButton" type="button">Save Settings</button>
+      
+      <button id="saveButton" type="button" class="primary-btn">Save Settings</button>
       <p id="status" class="status"></p>
     </main>
     <script src="options.js" type="module"></script>
