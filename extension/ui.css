@@ -1,0 +1,66 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  color: #17202a;
+}
+
+.panel {
+  width: 320px;
+  padding: 16px;
+}
+
+.panel-wide {
+  width: 100%;
+  max-width: 640px;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.muted {
+  margin: 0 0 16px;
+  color: #5d6d7e;
+}
+
+.field,
+.checkbox {
+  display: block;
+  margin-bottom: 16px;
+}
+
+.field span,
+.checkbox span {
+  display: block;
+  margin-bottom: 6px;
+}
+
+input[type="url"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cfd8dc;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #0f766e;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.status {
+  min-height: 20px;
+  margin: 12px 0;
+  color: #334155;
+}
+
+a {
+  color: #0f766e;
+}

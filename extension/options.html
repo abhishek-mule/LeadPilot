@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>LeadPilot Settings</title>
+    <link rel="stylesheet" href="ui.css">
+  </head>
+  <body>
+    <main class="panel panel-wide">
+      <h1>LeadPilot Settings</h1>
+      <label class="field">
+        <span>Apps Script Webhook URL</span>
+        <input id="webhookUrl" type="url" placeholder="https://script.google.com/macros/s/.../exec">
+      </label>
+      <label class="checkbox">
+        <input id="autoCapture" type="checkbox">
+        <span>Enable auto-capture later</span>
+      </label>
+      <button id="saveButton" type="button">Save Settings</button>
+      <p id="status" class="status"></p>
+    </main>
+    <script src="options.js" type="module"></script>
+  </body>
+</html>

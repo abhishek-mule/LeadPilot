@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "LeadPilot for IndiaMART",
+  "version": "0.1.0",
+  "description": "Capture IndiaMART seller leads and push them to Google Sheets.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://*.indiamart.com/*",
+    "https://script.google.com/*",
+    "https://script.googleusercontent.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "icons": {
+    "16": "assets/clickpilot_logo.png",
+    "48": "assets/clickpilot_logo.png",
+    "128": "assets/clickpilot_logo.png"
+  },
+  "action": {
+    "default_title": "LeadPilot",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "assets/clickpilot_logo.png",
+      "48": "assets/clickpilot_logo.png",
+      "128": "assets/clickpilot_logo.png"
+    }
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.indiamart.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
