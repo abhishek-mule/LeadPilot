@@ -1,5 +1,7 @@
 # LeadPilot for IndiaMART
 
+<img src="extension/assets/clickpilot_logo.png" alt="LeadPilot Logo" width="200"/>
+
 Starter scaffold for a zero-infrastructure MVP:
 
 - `extension/` contains a Manifest V3 Chrome extension that detects IndiaMART seller pages and extracts lead data from the DOM.
